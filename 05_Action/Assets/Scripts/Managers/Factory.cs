@@ -12,6 +12,7 @@ public class Factory : Singleton<Factory>
     ItemDataManager itemDataManager;
 
     ItemPool itemPool;
+    DamageTextPool damageTextPool;
 
     protected override void OnPreInitialize()
     {
@@ -25,6 +26,9 @@ public class Factory : Singleton<Factory>
         Transform child = transform.GetChild(0);
         itemPool = child.GetComponent<ItemPool>();
         itemPool?.Initialize();
+        child = transform.GetChild(1);
+        damageTextPool = child.GetComponent<DamageTextPool>();
+        damageTextPool?.Initialize();
     }
 
     /// <summary>
@@ -71,5 +75,12 @@ public class Factory : Singleton<Factory>
             items[i] = MakeItem(code, position, useNoise);
         }
         return items;
+    }
+
+    public GameObject MakeDamageText(int damage, Vector3? position = null)
+    {
+        DamageText damageText = damageTextPool.GetObject(position);
+        damageText.SetDamage(damage);
+        return damageText.gameObject;
     }
 }

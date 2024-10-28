@@ -18,13 +18,16 @@ public class EnemyHealth : MonoBehaviour, IHealth
         get => hp;
         private set
         {
-            hp = value;
-            if(stateMachine.IsAliveState && hp <= 0)
+            if(stateMachine.IsAliveState)
             {
-                Die();
+                hp = value;
+                if(hp <= 0)
+                {
+                    Die();
+                }
+                hp = Mathf.Clamp(hp, 0, maxHP);
+                onHealthChange?.Invoke(hp/maxHP);
             }
-            hp = Mathf.Clamp(hp, 0, maxHP);
-            onHealthChange?.Invoke(hp/maxHP);
         }
     }
 
@@ -58,7 +61,7 @@ public class EnemyHealth : MonoBehaviour, IHealth
 
     public void HealthHeal(float heal)
     {
-        throw new NotImplementedException();    // 사용안함
+        HP += heal; // 테스트용
     }
 
     public void HealthRegenerate(float totalRegen, float duration)

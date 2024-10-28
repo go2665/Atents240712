@@ -1,9 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class Test13_EnemyHitAndAttack : TestBase
 {
+    public EnemyHealth health;
+
     private void Start()
     {
         Player player = GameManager.Instance.Player;
@@ -12,5 +15,15 @@ public class Test13_EnemyHitAndAttack : TestBase
 
         PlayerMovement movement = player.GetComponent<PlayerMovement>();
         movement.ToggleMoveMode();  // 걷기 모드로 변경
+    }
+
+    protected override void OnTest1(InputAction.CallbackContext context)
+    {
+        health.GetDamage(10);
+    }
+
+    protected override void OnTest2(InputAction.CallbackContext context)
+    {
+        health.HealthHeal(100);
     }
 }

@@ -1,0 +1,73 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+[RequireComponent(typeof(EnemyStateMachine))]
+public class EnemyHealth : MonoBehaviour, IHealth
+{
+    float hp = 100.0f;
+
+    [SerializeField]
+    float maxHP = 100.0f;
+
+    EnemyStateMachine stateMachine;
+
+    public float HP
+    {
+        get => hp;
+        private set
+        {
+            hp = value;
+            if(stateMachine.IsAliveState && hp <= 0)
+            {
+                Die();
+            }
+            hp = Mathf.Clamp(hp, 0, maxHP);
+            onHealthChange?.Invoke(hp/maxHP);
+        }
+    }
+
+    public float MaxHP => maxHP;
+
+    public bool IsAlive => hp > 0;
+
+    public event Action<float> onHealthChange;
+    public event Action onDie;
+
+    void Awake()
+    {
+        stateMachine = GetComponent<EnemyStateMachine>();
+    }
+
+    public void Die()
+    {
+        Debug.Log("슬라임 사망");
+        stateMachine.TransitionToDie();
+        onDie?.Invoke();
+    }
+
+    /// <summary>
+    /// 데미지를 입는 함수
+    /// </summary>
+    /// <param name="damage">입은 데미지 량</param>
+    public void GetDamage(float damage)
+    {
+        HP -= damage;
+    }
+
+    public void HealthHeal(float heal)
+    {
+        throw new NotImplementedException();    // 사용안함
+    }
+
+    public void HealthRegenerate(float totalRegen, float duration)
+    {
+        throw new NotImplementedException();    // 사용안함
+    }
+
+    public void HealthRegenetateByTick(float tickRegen, float tickInterval, uint totalTickCount)
+    {
+        throw new NotImplementedException();    // 사용안함
+    }
+}

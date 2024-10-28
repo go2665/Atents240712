@@ -10,7 +10,18 @@ using UnityEditor;
 
 public class EnemyStateMachine : MonoBehaviour
 {
+    // 공용 변수 빛 프로퍼티들 --------------------------------------------------------------------
+    [Header("공용")]
+    
+    /// <summary>
+    /// 이동 속도
+    /// </summary>
+    [SerializeField]
+    private float moveSpeed = 3.0f;
+    //--------------------------------------------------------------------------------------------
+
     // 대기 상태용 변수 및 프로퍼티들 --------------------------------------------------------------
+    [Header("대기 상태용")]
 
     /// <summary>
     /// 대기 상태로 들어갔을 때 기다리는 시간
@@ -23,16 +34,18 @@ public class EnemyStateMachine : MonoBehaviour
     //----------------------------------------------------------------------------------------------
 
     // 순찰 상태용 변수 및 프로퍼티들 --------------------------------------------------------------
+    [Header("순찰상태용")]
+    
+    /// <summary>
+    /// 웨이포인트
+    /// </summary>
     [SerializeField]
     Waypoints waypoints;
 
     public Waypoints Waypoints => waypoints;
     //----------------------------------------------------------------------------------------------
 
-
-
-    // 플레이어 탐색 용 변수들 -----------------------------------------------------------------------
-
+    // 플레이어 탐색 용 변수들 -----------------------------------------------------------------------    
     /// <summary>
     /// 원거리 시야 범위
     /// </summary>
@@ -53,8 +66,6 @@ public class EnemyStateMachine : MonoBehaviour
     //----------------------------------------------------------------------------------------------
 
 
-
-
     /// <summary>
     /// 현재 상태
     /// </summary>
@@ -64,6 +75,8 @@ public class EnemyStateMachine : MonoBehaviour
     StateWait wait;     // 대기 상태
     StatePatrol patrol; // 순찰 상태
     StateChase chase;   // 추적 상태
+    StateAttack attack; // 공격 상태
+    StateDie die;       // 사망 상태
 
     // 각종 컴포넌트들
     Animator animator;
@@ -74,6 +87,11 @@ public class EnemyStateMachine : MonoBehaviour
     /// </summary>
     public IState State => state;
 
+    /// <summary>
+    /// 현재 상태가 살아있는 상태인지 확인하는 프로퍼티(true면 살아있는 상태, false면 Die 상태)
+    /// </summary>
+    public bool IsAliveState => state != die;
+
     // 컴포넌트들에 접근하기 위한 프로퍼티들
     public Animator Animator => animator;
     public NavMeshAgent Agent => agent;
@@ -82,6 +100,8 @@ public class EnemyStateMachine : MonoBehaviour
     {
         animator = GetComponent<Animator>();
         agent = GetComponent<NavMeshAgent>();
+
+        agent.speed = moveSpeed;
     }
 
     private void Start()
@@ -89,6 +109,8 @@ public class EnemyStateMachine : MonoBehaviour
         wait = new StateWait(this);
         patrol = new StatePatrol(this);
         chase = new StateChase(this);
+        attack = new StateAttack(this);
+        die = new StateDie(this);
 
         state = wait;   // 대기 상태를 현재 상태로 지정
     }
@@ -134,6 +156,22 @@ public class EnemyStateMachine : MonoBehaviour
     public void TransitionToChase()
     {
         TransitionTo(chase);
+    }
+
+    /// <summary>
+    /// 현재 상태를 공격 상태로 전이시키는 함수
+    /// </summary>
+    public void TransitionToAttack()
+    {
+        TransitionTo(attack);
+    }
+
+    /// <summary>
+    /// 현재 상태를 사망 상태로 전이시키는 함수
+    /// </summary>
+    public void TransitionToDie()
+    {
+        TransitionTo(die);
     }
 
     /// <summary>

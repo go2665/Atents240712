@@ -350,6 +350,8 @@ GameObject:
   - component: {fileID: 6102936296059166406}
   - component: {fileID: 822816502377343969}
   - component: {fileID: 3541099402034613}
+  - component: {fileID: 3162946550803209566}
+  - component: {fileID: 5188676124362883345}
   m_Layer: 0
   m_Name: Slime
   m_TagString: Untagged
@@ -466,6 +468,35 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &3162946550803209566
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5083767513310111089}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77eea809ec2392a4698dee751ac0d10e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &5188676124362883345
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5083767513310111089}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 422b6c3b72859e34695ff6f5eac5d07f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  waitTime: 1
+  waypoints: {fileID: 0}
+  farSightRange: 10
+  sightHalfAngle: 60
+  nearSightRange: 1.5
 --- !u!1 &5835322853431553029
 GameObject:
   m_ObjectHideFlags: 0

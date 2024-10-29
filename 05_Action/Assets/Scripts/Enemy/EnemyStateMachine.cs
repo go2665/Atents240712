@@ -13,7 +13,7 @@ public class EnemyStateMachine : MonoBehaviour
 {
     // 공용 변수 빛 프로퍼티들 --------------------------------------------------------------------
     [Header("공용")]
-    
+
     /// <summary>
     /// 이동 속도
     /// </summary>
@@ -29,14 +29,14 @@ public class EnemyStateMachine : MonoBehaviour
     /// </summary>
     [SerializeField]
     float waitTime = 1.0f;
-        
+
     public float WaitTime => waitTime;
 
     //----------------------------------------------------------------------------------------------
 
     // 순찰 상태용 변수 및 프로퍼티들 --------------------------------------------------------------
     [Header("순찰상태용")]
-    
+
     /// <summary>
     /// 웨이포인트
     /// </summary>
@@ -52,7 +52,7 @@ public class EnemyStateMachine : MonoBehaviour
     /// <summary>
     /// 공격 상태로 들어가는 거리
     /// </summary>
-    [SerializeField]    
+    [SerializeField]
     float attackRange = 1.5f;
 
     //----------------------------------------------------------------------------------------------
@@ -139,7 +139,7 @@ public class EnemyStateMachine : MonoBehaviour
     /// <param name="target">전이할 상태</param>
     private void TransitionTo(IState target)
     {
-        if(target != null)
+        if (target != null)
         {
             state.Exit();   // 이전 상태의 Exit 실행
             state = target; // 상태를 target으로 변경하고
@@ -238,7 +238,7 @@ public class EnemyStateMachine : MonoBehaviour
     /// <param name="toTargetDir">슬라임이 플레이어를 바라보는 방향 벡터</param>
     /// <returns>시야각 안에 있으면 true, 없으면 false</returns>
     bool IsInSightAngle(Vector3 toTargetDir)
-    { 
+    {
         float angle = Vector3.Angle(transform.forward, toTargetDir);
         return sightHalfAngle > angle;  // sightHalfAngle보다 angle이 작아야 시야각 안이다.
     }
@@ -276,6 +276,14 @@ public class EnemyStateMachine : MonoBehaviour
             attackTarget = colliders[0].GetComponent<IBattle>();    // IBattle 가져오기(없으면 null)
         }
         return attackTarget;
+    }
+
+    /// <summary>
+    /// 사망 연출용 코루틴 실행 시키는 함수
+    /// </summary>
+    public void StartDieCoroutine()
+    {
+        StartCoroutine(die.DieCoroutine());
     }
 
 #if UNITY_EDITOR

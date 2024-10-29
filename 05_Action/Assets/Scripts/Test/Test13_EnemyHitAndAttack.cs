@@ -6,6 +6,7 @@ using UnityEngine.InputSystem;
 public class Test13_EnemyHitAndAttack : TestBase
 {
     public int damage = 20;
+    public Enemy enemy;
     public EnemyHealth health;
     public EnemyBattle battle;
 
@@ -35,5 +36,10 @@ public class Test13_EnemyHitAndAttack : TestBase
     protected override void OnTest3(InputAction.CallbackContext context)
     {
         health.HealthHeal(100);
+    }
+
+    protected override void OnTest4(InputAction.CallbackContext context)
+    {
+        enemy.DropItems();
     }
 }

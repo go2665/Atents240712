@@ -348,7 +348,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 1520949069393253012, guid: 9abc546afdd80044dbe796627eb04184, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -1605,13 +1606,18 @@ PrefabInstance:
     - target: {fileID: 5188676124362883345, guid: 76e171a2c671f734d9ab9dbcf07623cc,
         type: 3}
       propertyPath: moveSpeed
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5188676124362883345, guid: 76e171a2c671f734d9ab9dbcf07623cc,
         type: 3}
       propertyPath: waypoints
       value: 
       objectReference: {fileID: 206121058}
+    - target: {fileID: 5188676124362883345, guid: 76e171a2c671f734d9ab9dbcf07623cc,
+        type: 3}
+      propertyPath: attackRange
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

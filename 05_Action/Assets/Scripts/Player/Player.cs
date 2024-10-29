@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(PlayerInputController))]
-[RequireComponent(typeof(PlayerMovement), typeof(PlayerAttack), typeof(PlayerInventory))]
+[RequireComponent(typeof(PlayerMovement), typeof(PlayerBattle), typeof(PlayerInventory))]
 public class Player : MonoBehaviour
 {
     /// <summary>
@@ -26,7 +26,7 @@ public class Player : MonoBehaviour
     CharacterController characterController;
     PlayerInputController inputController;
     PlayerMovement movement;
-    PlayerAttack attack;
+    PlayerBattle attack;
     PlayerInventory inventory;
 
 
@@ -36,7 +36,7 @@ public class Player : MonoBehaviour
 
         inputController = GetComponent<PlayerInputController>();
         movement = GetComponent<PlayerMovement>();
-        attack = GetComponent<PlayerAttack>();
+        attack = GetComponent<PlayerBattle>();
         inventory = GetComponent<PlayerInventory>();
 
         inputController.onMove += movement.SetDirection;

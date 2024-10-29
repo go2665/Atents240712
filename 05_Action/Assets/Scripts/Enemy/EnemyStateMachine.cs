@@ -8,6 +8,7 @@ using UnityEngine.AI;
 using UnityEditor;
 #endif
 
+[RequireComponent(typeof(EnemyBattle))]
 public class EnemyStateMachine : MonoBehaviour
 {
     // 공용 변수 빛 프로퍼티들 --------------------------------------------------------------------
@@ -45,7 +46,19 @@ public class EnemyStateMachine : MonoBehaviour
     public Waypoints Waypoints => waypoints;
     //----------------------------------------------------------------------------------------------
 
+    // 공격 상태용 변수 및 프로퍼티들 ----------------------------------------------------------------
+    [Header("공격 상태용")]
+
+    /// <summary>
+    /// 공격 상태로 들어가는 거리
+    /// </summary>
+    [SerializeField]    
+    float attackRange = 1.5f;
+
+    //----------------------------------------------------------------------------------------------
+
     // 플레이어 탐색 용 변수들 -----------------------------------------------------------------------    
+    [Header("탐색용")]
     /// <summary>
     /// 원거리 시야 범위
     /// </summary>
@@ -109,7 +122,7 @@ public class EnemyStateMachine : MonoBehaviour
         wait = new StateWait(this);
         patrol = new StatePatrol(this);
         chase = new StateChase(this);
-        attack = new StateAttack(this);
+        attack = new StateAttack(this, GetComponent<EnemyBattle>());    // StateAttack은 상태머신과 EnemyBattle을 받음
         die = new StateDie(this);
 
         state = wait;   // 대기 상태를 현재 상태로 지정
@@ -248,6 +261,21 @@ public class EnemyStateMachine : MonoBehaviour
             }
         }
         return result;
+    }
+
+    /// <summary>
+    /// 공격 범위 안에 플레이어가 있는지 확인하는 함수
+    /// </summary>
+    /// <returns>null이 아니면 공격범위안에 플레이어가 있다, null이면 없다.</returns>
+    public IBattle PlayerInAttackRange()
+    {
+        IBattle attackTarget = null;
+        Collider[] colliders = Physics.OverlapSphere(transform.position, attackRange, LayerMask.GetMask("Player")); //Player 레이어 확인
+        if (colliders.Length > 0)
+        {
+            attackTarget = colliders[0].GetComponent<IBattle>();    // IBattle 가져오기(없으면 null)
+        }
+        return attackTarget;
     }
 
 #if UNITY_EDITOR

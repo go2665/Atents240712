@@ -29,13 +29,17 @@ public class StateChase : IState
 
     public void Update()
     {
-        if(stateMachine.SearchPlayer(out Vector3 target))   // 플레이어 찾기
+        if (stateMachine.PlayerInAttackRange() != null)         // 플레이어가 공격범위 안에 있으면 
         {
-            stateMachine.Agent.SetDestination(target);      // 찾았으면 플레이어 위치로 이동
+            stateMachine.TransitionToAttack();                  // 공격 상태로 전이
+        }
+        else if(stateMachine.SearchPlayer(out Vector3 target))  // 플레이어 찾기
+        {
+            stateMachine.Agent.SetDestination(target);          // 찾았으면 플레이어 위치로 이동
         }
         else
         {
-            stateMachine.TransitionToWait();                // 못찾았으면 잠시 대기
+            stateMachine.TransitionToWait();                    // 못찾았으면 잠시 대기
         }
     }
 }
